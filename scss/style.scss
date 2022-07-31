@@ -1,0 +1,235 @@
+@use 'reset';
+@import 'variables';
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&display=swap');
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Space Mono', monospace;
+    font-weight: $fw-bold;
+    background-color: $neutral-300;
+    line-height: 1;
+    justify-content: center;
+    min-height: 100vh;
+
+    > .container {
+        display: grid;
+        gap: var(--sz-lg);
+        background-color: $neutral-100;
+        padding: var(--sz-lg) var(--sz-md);
+        border-top-left-radius: var(--br-md);
+        border-top-right-radius: var(--br-md);
+        box-shadow: 0 var(--sz-sm) var(--sz-lg) rgb(0, 73, 77, 0.25);
+    }
+}
+
+header {
+    display: flex;
+    align-items: center;
+    padding-block: var(--sz-lg);
+}
+
+form {
+    display: grid;
+    gap: var(--sz-lg);
+    padding-inline: var(--sz-xs);
+
+    section {
+        display: grid;
+        gap: var(--sz-xs);
+    }
+
+    label {
+        color: $neutral-700;
+    }
+
+    input {
+        text-align: right;
+        color: $neutral-900;
+        font-size: var(--fs-inputs);
+    }
+
+    .icon-input {
+        background-color: $neutral-200;
+        display: flex;
+        align-items: center;
+        border-radius: var(--sz-xxs);
+        padding: var(--sz-xxs) var(--sz-md);
+
+        input {
+            width: 100%;
+        }
+
+        &.focused {
+            outline: $sz-outline solid $primary;
+        }
+
+        &.error {
+            outline: $sz-outline solid salmon;
+            position: relative;
+
+            &:before {
+                content: 'Can\'t be zero';
+                color: salmon;
+                position: absolute;
+                right: 0;
+                top: calc(var(--sz-xs) * (-1));
+                transform: translateY(-100%);
+            }
+        }
+    }
+
+    .tips .container {
+        display: grid;
+        grid-template-areas:
+            'one two'
+            'three four'
+            'five six'
+        ;
+        grid-auto-columns: 1fr;
+        grid-auto-rows: 1fr;
+        gap: var(--sz-sm);
+    }
+
+    .tip, .custom-tip {
+        padding-block: var(--sz-xxs);
+        border-radius: var(--sz-xxs);
+    }
+
+    .tip {
+        text-align: center;
+        background-color: $neutral-900;
+        color: $neutral-100;
+        display: grid;
+        align-content: center;
+        font-size: var(--fs-inputs);
+
+        &:hover {
+            background-color: $neutral-300;
+            color: $neutral-900;
+            cursor: pointer;
+        }
+
+        &.active {
+            background-color: $primary;
+            color: $neutral-900;
+        }
+    }
+    
+    .custom-tip {
+        background-color: $neutral-200;
+        color: $neutral-700;
+        padding-inline: var(--sz-md);
+        width: 100%;
+
+        &:focus {
+            outline: $sz-outline solid $primary;
+        }
+    }
+}
+
+.results {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sz-lg);
+    background-color: $neutral-900;
+    border-radius: var(--sz-sm);
+    padding:
+        var(--sz-lg)
+        var(--sz-sm)
+        var(--sz-md)
+        var(--sz-sm)
+    ;
+
+    section {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    h4 {
+        color: $neutral-100;
+
+        &:after {
+            content: '/ person';
+            color: $neutral-700;
+            display: block;
+            margin-top: var(--sz-xxs);
+        }
+    }
+
+    h5 {
+        color: $primary;
+        font-size: var(--fs-headings);
+    }
+
+    button {
+        color: $neutral-900;
+        background-color: $primary;
+        text-transform: uppercase;
+        text-align: center;
+        padding-block: var(--sz-sm);
+        font-size: var(--fs-inputs);
+        border-radius: var(--sz-xxs);
+
+        &:hover {
+            cursor: pointer;
+            background-color: $neutral-300;
+        }
+
+        &[disabled] {
+            opacity: 0.25;
+
+            &:hover {
+                cursor: not-allowed;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: $wd-desktop) {
+    body {
+        gap: var(--sz-sm);
+        align-items: center;
+        transform: translateY(-10%);
+
+        > .container {
+            grid-template-areas: 'form results';
+            grid-auto-columns: 1fr;
+            border-radius: var(--br-md);
+            padding: var(--sz-md);
+        }
+    }
+
+    header {
+        padding-block: var(--sz-xxl);
+    }
+
+    form {
+        padding-block: var(--sz-sm);
+        gap: var(--sz-xl);
+
+        .icon-input {
+            padding-inline: var(--sz-sm);
+        }
+
+        .tips .container {
+            grid-template-areas:
+                'one two three'
+                'four five six'
+            ;
+        }
+
+        .custom-tip {
+            width: 7.5rem;
+            padding-inline: var(--sz-sm);
+        }
+    }
+
+    .results {
+        padding: var(--sz-xxl) var(--sz-xl) var(--sz-xl) var(--sz-xl);
+
+        button {
+            margin-top: auto;
+        }
+    }
+}

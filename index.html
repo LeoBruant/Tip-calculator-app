@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/images/favicon-32x32.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tip calculator app</title>
+  <link rel="stylesheet" href="scss/style.scss">
+</head>
+
+<body>
+  <header>
+    <img src="/images/logo.svg" alt="logo">
+  </header>
+  <div class="container">
+    <form>
+      <section id="bill">
+        <label for="bill">Bill</label>
+        <div class="icon-input">
+          <img src="/images/icon-dollar.svg" alt="dollar">
+          <input type="text" name="bill" placeholder="0" onfocus="toggleInput('bill')" onblur="toggleInput('bill')"
+            oninput="handleBillChange()">
+        </div>
+      </section>
+      <section class="tips">
+        <label for="tip">Select Tip %</label>
+        <div class="container">
+          <div class="tip">5%</div>
+          <div class="tip">10%</div>
+          <div class="tip">15%</div>
+          <div class="tip">25%</div>
+          <div class="tip">50%</div>
+          <input type="text" class="custom-tip" placeholder="Custom" oninput="handleTipChange()">
+        </div>
+      </section>
+      <section id="people">
+        <label for="people">Number of People</label>
+        <div class="icon-input">
+          <img src="/images/icon-person.svg" alt="dollar">
+          <input type="text" name="bill" placeholder="0" onfocus="toggleInput('people')" onblur="toggleInput('people')"
+            oninput="handlePeopleChange()">
+        </div>
+      </section>
+    </form>
+    <div class="results">
+      <section>
+        <div>
+          <h4>Tip Amount</h4>
+        </div>
+        <div>
+          <h5 id="tip-amount">$0.00</h5>
+        </div>
+      </section>
+      <section>
+        <div>
+          <h4>Total</h4>
+        </div>
+        <div>
+          <h5 id="total">$0.00</h5>
+        </div>
+      </section>
+      <button onclick="reset()" disabled>reset</button>
+    </div>
+  </div>
+</body>
+
+</html>
+<script>
+  // Variables
+
+  let tip = 0
+  let tips = document.getElementsByClassName('tip')
+  let tipsValue = [
+    5 / 100,
+    10 / 100,
+    15 / 100,
+    25 / 100,
+    50 / 100
+  ]
+
+  // Methods
+
+  function isFormValid() {
+    let valid = true
+
+    let billValue = document.querySelector('#bill input').value
+    valid = !isNaN(parseFloat(billValue))
+
+    let peopleValue = document.querySelector('#people input').value
+    if (valid) {
+      valid = /^\d+$/.test(peopleValue) && parseInt(peopleValue) > 0
+    }
+
+    return valid
+  }
+
+  function handleBillChange() {
+    submitForm()
+  }
+
+  function handlePeopleChange() {
+    let value = document.querySelector('#people input').value
+    let iconInput = document.querySelector('#people .icon-input')
+
+    if (parseInt(value) < 1) {
+      iconInput.classList.add('error')
+    } else {
+      iconInput.classList.remove('error')
+    }
+
+    submitForm()
+  }
+
+  function handleTipChange() {
+    resetTips()
+
+    let tipValue = document.querySelector('.custom-tip').value
+
+    tip = /^\d+$/.test(tipValue) ? tipValue / 100 : 0
+
+    submitForm()
+  }
+
+  function reset() {
+    // Form
+
+    document.querySelector('#bill input').value = ''
+
+    resetTips()
+    document.querySelector('.custom-tip').value = ''
+
+    document.querySelector('#people input').value = ''
+
+    // Results
+
+    document.getElementById('tip-amount').innerText = '$0.00'
+    document.getElementById('total').innerText = '$0.00'
+
+    document.querySelector('.results button').disabled = true
+  }
+
+  function resetTips() {
+    for (let i = 0; i < tips.length; i++) {
+      tips[i].classList.remove('active')
+    }
+  }
+
+  function submitForm() {
+    if (isFormValid()) {
+      let bill = parseFloat(document.querySelector('#bill input').value)
+      let people = parseFloat(document.querySelector('#people input').value)
+
+      let tipAmount = bill * tip / people
+      let total = (bill + bill * tip) / people
+
+      document.getElementById('tip-amount').innerText = '$' + tipAmount.toFixed(2)
+      document.getElementById('total').innerText = '$' + total.toFixed(2)
+
+      document.querySelector('.results button').disabled = false
+    }
+  }
+
+  function toggleInput(section) {
+    let iconInput = document.querySelector(`#${section} .icon-input`)
+    iconInput.classList.toggle('focused')
+  }
+
+  // Main
+
+  for (let i = 0; i < tips.length; i++) {
+    tips[i].onclick = () => {
+      for (let i2 = 0; i2 < tips.length; i2++) {
+        tips[i2].classList.remove('active')
+      }
+
+      tip = tipsValue[i]
+      tips[i].classList.add('active')
+
+      submitForm()
+    }
+  }
+</script>

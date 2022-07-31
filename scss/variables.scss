@@ -1,0 +1,47 @@
+// Layout
+
+$wd-desktop: 1440px;
+
+// Colors
+
+$primary: hsl(172, 67%, 45%);
+
+$neutral-900: hsl(183, 100%, 15%);
+$neutral-700: hsl(186, 14%, 43%);
+$neutral-500: hsl(184, 14%, 56%);
+$neutral-300: hsl(185, 41%, 84%);
+$neutral-200: hsl(189, 41%, 97%);
+$neutral-100: hsl(0, 0%, 100%);
+
+// Typography
+
+:root {
+    --fs-headings: 2.5rem;
+    --fs-inputs: 1.5rem;
+}
+
+$fw-bold: 700;
+
+// Sizing
+
+$sz-outline: 3px;
+
+:root {
+    --sz-xxs: 0.3rem;
+    --sz-xs: 0.8rem;
+    --sz-sm: 1rem;
+    --sz-md: 1.25rem;
+    --sz-lg: 2.25rem;
+    --sz-xl: 2.5rem;
+    --sz-xxl: 3.5rem;
+
+    --br-md: 1.25rem;
+}
+
+@media screen and (min-width: $wd-desktop) {
+    :root {
+        --sz-md: 1.75rem;
+
+        --br-md: 1.5rem;
+    }
+}
