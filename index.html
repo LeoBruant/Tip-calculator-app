@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABO1BMVEUAAAD////////////////////////////////////////////////////////////////////////////////////////////////////////////////l9Pff8fS54ein2eOn2eL9/v684unr9vj7/f7c8PSl2eKHzNil2OLv+Prz+vue1eB3xdOq2uPm9Pf29/vy8/n3/Py13+eEyteZ097P6u/2+/zByeKOm8r8/f7u+Pq+4+qOz9uU0dzo9fjb4O5meLbh5fH0+vvV7fHx+fv8/P2Gk8Wbps+44eim2eLW2+xkdrXO1Oit3OWttthperja3u7u+Pn6+/2hrNJneLfFy+P7+/23v92IlcbN0ufx8/nj5/Kbp9BsfbltfrqAj8ORnsvg5PD+/v/v8ffQ1em0vduqtNfn6vS/61TcAAAAHHRSTlMAAAQqbK3Z8v0DN5ff+xqJ6jbC/kHBAjjp3qz8qSKHsgAAAAFiS0dEAf8CLd4AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfiChMPAx5FOtlkAAABSUlEQVQ4y4WTZ2OCMBCGc4IMEXAPjB10771t7dLuXbv3/v+/oNigIYjN+4HcJU9CcgMhVxASxLAkK4oshUUhBIgVqBEtqmNXelSLqF4EwDBjmFHMNADoejyRxD4lE/EGAZCScICkFCGc/YHrDkHOACON2yhtOABkTNxWZgYQZHPeqWKH18tlAakas6ezi3E1FQl5Fuhm3LyARD0AsIs9vSSmIrJwC9DXPzA4NEx8C0ktwMjo2PiE3YgFkokxOdUEpmdm5+YXXEBGCjEWl5bpHVZKq2tlMq+gAjHWNza9r9jarpD5QuMX1Z3dv3Fvn72T3LzkweFRfSgd+xJGn3lyeuZ8K+csYNFAXVzWrqr+bDmBoqG+vqnd3t3bDOCE2push8en55fXNzZZTLrfPz6/vn+oX083t2C4JccvWm7Z8xuH33r85v2v/X8Bp/FiyVLnL/0AAAAldEVYdGRhdGU6Y3JlYXRlADIwMTgtMTAtMTlUMTU6MDM6MzArMDI6MDCzEaEaAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE4LTEwLTE5VDE1OjAzOjMwKzAyOjAwwkwZpgAAAFd6VFh0UmF3IHByb2ZpbGUgdHlwZSBpcHRjAAB4nOPyDAhxVigoyk/LzEnlUgADIwsuYwsTIxNLkxQDEyBEgDTDZAMjs1Qgy9jUyMTMxBzEB8uASKBKLgDqFxF08kI1lQAAAABJRU5ErkJggg==" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tip calculator app</title>
+  
+  <link rel="stylesheet" href="assets/index.e0352287.css">
+</head>
+
+<body>
+  <header>
+    <img src="assets/logo.dba8a83d.svg" alt="logo">
+  </header>
+  <div class="container">
+    <form>
+      <section id="bill">
+        <label for="bill">Bill</label>
+        <div class="icon-input">
+          <img src="assets/icon-dollar.1ec9d9bc.svg" alt="dollar">
+          <input type="text" name="bill" placeholder="0" onfocus="toggleInput('bill')" onblur="toggleInput('bill')"
+            oninput="handleBillChange()">
+        </div>
+      </section>
+      <section class="tips">
+        <label for="tip">Select Tip %</label>
+        <div class="container">
+          <div class="tip">5%</div>
+          <div class="tip">10%</div>
+          <div class="tip">15%</div>
+          <div class="tip">25%</div>
+          <div class="tip">50%</div>
+          <input type="text" class="custom-tip" placeholder="Custom" oninput="handleTipChange()">
+        </div>
+      </section>
+      <section id="people">
+        <label for="people">Number of People</label>
+        <div class="icon-input">
+          <img src="assets/icon-person.62019f45.svg" alt="dollar">
+          <input type="text" name="bill" placeholder="0" onfocus="toggleInput('people')" onblur="toggleInput('people')"
+            oninput="handlePeopleChange()">
+        </div>
+      </section>
+    </form>
+    <div class="results">
+      <section>
+        <div>
+          <h4>Tip Amount</h4>
+        </div>
+        <div>
+          <h5 id="tip-amount">$0.00</h5>
+        </div>
+      </section>
+      <section>
+        <div>
+          <h4>Total</h4>
+        </div>
+        <div>
+          <h5 id="total">$0.00</h5>
+        </div>
+      </section>
+      <button onclick="reset()" disabled>reset</button>
+    </div>
+  </div>
+</body>
+
+</html>
+<script>
+  // Variables
+
+  let tip = 0
+  let tips = document.getElementsByClassName('tip')
+  let tipsValue = [
+    5 / 100,
+    10 / 100,
+    15 / 100,
+    25 / 100,
+    50 / 100
+  ]
+
+  // Methods
+
+  function isFormValid() {
+    let valid = true
+
+    let billValue = document.querySelector('#bill input').value
+    valid = !isNaN(parseFloat(billValue))
+
+    let peopleValue = document.querySelector('#people input').value
+    if (valid) {
+      valid = /^\d+$/.test(peopleValue) && parseInt(peopleValue) > 0
+    }
+
+    return valid
+  }
+
+  function handleBillChange() {
+    submitForm()
+  }
+
+  function handlePeopleChange() {
+    let value = document.querySelector('#people input').value
+    let iconInput = document.querySelector('#people .icon-input')
+
+    if (parseInt(value) < 1) {
+      iconInput.classList.add('error')
+    } else {
+      iconInput.classList.remove('error')
+    }
+
+    submitForm()
+  }
+
+  function handleTipChange() {
+    resetTips()
+
+    let tipValue = document.querySelector('.custom-tip').value
+
+    tip = /^\d+$/.test(tipValue) ? tipValue / 100 : 0
+
+    submitForm()
+  }
+
+  function reset() {
+    // Form
+
+    document.querySelector('#bill input').value = ''
+
+    resetTips()
+    document.querySelector('.custom-tip').value = ''
+
+    document.querySelector('#people input').value = ''
+
+    // Results
+
+    document.getElementById('tip-amount').innerText = '$0.00'
+    document.getElementById('total').innerText = '$0.00'
+
+    document.querySelector('.results button').disabled = true
+  }
+
+  function resetTips() {
+    for (let i = 0; i < tips.length; i++) {
+      tips[i].classList.remove('active')
+    }
+  }
+
+  function submitForm() {
+    if (isFormValid()) {
+      let bill = parseFloat(document.querySelector('#bill input').value)
+      let people = parseFloat(document.querySelector('#people input').value)
+
+      let tipAmount = bill * tip / people
+      let total = (bill + bill * tip) / people
+
+      document.getElementById('tip-amount').innerText = '$' + tipAmount.toFixed(2)
+      document.getElementById('total').innerText = '$' + total.toFixed(2)
+
+      document.querySelector('.results button').disabled = false
+    }
+  }
+
+  function toggleInput(section) {
+    let iconInput = document.querySelector(`#${section} .icon-input`)
+    iconInput.classList.toggle('focused')
+  }
+
+  // Main
+
+  for (let i = 0; i < tips.length; i++) {
+    tips[i].onclick = () => {
+      for (let i2 = 0; i2 < tips.length; i2++) {
+        tips[i2].classList.remove('active')
+      }
+
+      tip = tipsValue[i]
+      tips[i].classList.add('active')
+
+      submitForm()
+    }
+  }
+</script>
